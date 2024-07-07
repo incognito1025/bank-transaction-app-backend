@@ -122,13 +122,94 @@ bank-transaction-app-backend/
      # For now, let's leave it empty
      ```
 
+     ```
+
+   - Setup `server.js` `app.js` `package.json` file with basic healthcheck route and confirm installation of node and npm:
+     
+    ```
+      node --version
+      npm --version
+
+    ```
+
+
+
+    - you should see the following:
+
+    ```
+
+        ➜  bank-transaction-app-backend git:(main) node --version
+        v20.10.0
+        ➜  bank-transaction-app-backend git:(main) ✗ npm --version
+        10.2.3
+        ➜  bank-transaction-app-backend git:(main) ✗ npm install
+
+        up to date, audited 69 packages in 1s
+
+        14 packages are looking for funding
+          run `npm fund` for details
+
+        found 0 vulnerabilities
+        ➜  bank-transaction-app-backend git:(main) ✗ node server.js
+        Listening on port undefined
+
+
+    ```
+
+
 
 
      ```
+        //app.js
+
+        // Dependencies
+        const express = require("express")
+
+        // Configuration
+        const app = express()
+
+        // Root/Health Check Route
+        app.get("/", (req, res) => {
+            res.status(200).send("Welcome to My Bank Transaction App")
+        })
+
+        // Export App
+        module.exports = app      
+
+
+     ```
+        //server.js
+
+        @@ -0,0 +1,11 @@
+        // Dependencies
+        const app = require("./app")
+
+        // Configuration
+        require("dotenv").config()
+        const PORT = process.env.PORT
+
+        // Listen To Port
+        app.listen(PORT, () => {
+            console.log(`Listening on port ${PORT}`)
+        })
+
+     ```
+
+     ```
+
+     
+     ```
+
+    
+
+
+
+
+
 
 2. **File Contents and Directories/Dependencies:**
 
-   - **index.js:** Main entry point handling CLI commands.
+   - **app.js:** Main entry point handling CLI commands.
    - **helpers.js:** Utility functions for reading and writing JSON files.
    - **transactionController.js:** Functions for CRUD operations for transactions
    - **transactions.json:** Stores the transaction list. empty array []
