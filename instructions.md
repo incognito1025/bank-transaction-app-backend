@@ -1,6 +1,6 @@
 Setup Steps
 
-//Use npm run to start the program
+//Use node server.js run to start the program
 
 ### Project Structure and Setup
 
@@ -196,10 +196,25 @@ bank-transaction-app-backend/
      ```
 
      ```
+      mkdir controllers
+      touch controllers/transactionsController.js
+
+      mkdir models
+      touch models/transaction.js
 
      
      ```
+    - you should see the following for models/transaction.js:
+    module.exports = [
+    {
 
+    }
+]
+
+    ```
+
+    
+-
     
 
 
