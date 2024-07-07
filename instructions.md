@@ -214,8 +214,6 @@ bank-transaction-app-backend/
     ```
 
     
--
-    
 
 
 
@@ -233,5 +231,41 @@ bank-transaction-app-backend/
    **README.md:** Describes the project and provides instructions.
 
 
+3. add controller to app.js
 
+```
+// Configuration
+const app = express()
+
+// Controllers
+const transactionsController = require("./controllers/transactionsController")
+
+app.use("/transactions", transactionsController)
+
+// Root/Health Check Route
+app.get("/", (req, res) => {
+    res.status(200).send("Welcome to My Bank Transaction App")
+
+```
+
+4. update transactionsController.js
+
+```
+
+// Dependencies
+const express = require("express")
+
+const transactionsRouter = express.Router()
+
+const transactionArray = require("../models/transaction")
+
+// Index Route
+transactionsRouter.get("/", (req, res) => {
+    res.status(200).send(transactionArray)
+})
+
+// Export
+module.exports = transactionsRouter;
+
+```
 
