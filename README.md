@@ -170,5 +170,5 @@ Defines the project dependencies and scripts.
 
 ## Links
 
-[Live Site](https://budgetwise-demo.netlify.app/)
+[Live Site](add netifly/)
 [Frontend Repo](https://github.com/incognito1025/bank-transaction-app-frontend.git)
