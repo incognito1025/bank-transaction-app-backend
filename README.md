@@ -1,4 +1,4 @@
-# Budgeting App Backend
+# Bank Transaction App Backend
 
 This is the backend for a budgeting application. It is built using Express.js and includes basic CRUD operations for managing transactions. 
 
@@ -20,6 +20,7 @@ This is the backend for a budgeting application. It is built using Express.js an
    https://github.com/incognito1025/bank-transaction-app-backend.git
    ```
 
+
 2. Initialize a Node.js project and create necessary directories and files: :
 
    ```bash
@@ -30,6 +31,7 @@ This is the backend for a budgeting application. It is built using Express.js an
      touch data/transactions.json controllers/transactionController.js models/transaction.js .gitignore app.js server.js .env README.md
      ```
 
+
 3. Install Dependencies:
 
      ```bash
@@ -37,11 +39,13 @@ This is the backend for a budgeting application. It is built using Express.js an
      npm install --save-dev nodemon
      ```
 
+
 4. Create a `.env` file and set the port:
 
    ```
    PORT=7777
    ```
+
 
 5. Update .gitignore file:
 
@@ -61,6 +65,7 @@ This is the backend for a budgeting application. It is built using Express.js an
      # Data files
      /data/transactions.json
    ```
+
 
 6. Update `package.json` scripts:
 
@@ -101,6 +106,7 @@ This is the backend for a budgeting application. It is built using Express.js an
    npx nodemon server.js
    ```
 
+
 ## Usage
 
 Once the server is running, you can access the following endpoints to manage your transactions.
@@ -113,60 +119,77 @@ Once the server is running, you can access the following endpoints to manage you
 - **PUT** `/transactions/:id` - Update a specific transaction by ID.
 - **DELETE** `/transactions/:id` - Delete a specific transaction by ID.
 
+
 ## Wireframe
 
 ```
-budgeting-app-backend/
+bank-transaction-app-backend/
 │
 ├── controllers/
 │   └── transactionsController.js    # Controller for handling transactions
 │
 ├── models/
-│   └── transactions.js             # Transaction model static array of transaction objects
+│   ├── transactions.js             # Transaction model defining a static array of transaction objects
 │   └── transactions.json           # JSON file to store dynamic transaction data
-├── node_modules/                   # Node.js modules
 │
-├── .env                            # Environment variables
-├── .gitignore                      # Files and directories to ignore in Git
-├── app.js                          # Main application setup
+├── node_modules/                   # Node.js modules (generated, not typically stored in Git)
+│
+├── .env                            # Environment variables configuration file
+├── .gitignore                      # Git ignore file to exclude certain files/directories
+├── app.js                          # Main application setup file
+├── package-lock.json               # Exact version lock of dependencies for reproducibility
 ├── package.json                    # Project metadata and dependencies
 ├── server.js                       # Server configuration and entry point
 └── README.md                       # Project documentation
+└── notes.md                        # To store numerous function comments, reference materials etc.
+
 ```
 
 ## Detailed Explanation
 
 ### app.js
-
 Sets up the Express application, enabling CORS, JSON parsing, and defines the main routes.
 
-### server.js
 
+### server.js
 Loads environment variables using `dotenv`, sets the application to listen on the port defined in the `.env` file.
 
-### .env
 
+### .env
 Contains environment-specific variables such as the port number.
 
-### models/transactions.js
 
+### models/transactions.js
 Stores static array of transaction data in JavaScript format.
 
-### models/transactions.json
 
+### models/transactions.json
 Stores dynamic transaction data in JSON format.
 
-### controllers/transactionsController.js
 
+### controllers/transactionsController.js
 Handles CRUD operations for transactions, including GET, POST, PUT, and DELETE requests.
 
-### .gitignore
 
+### .gitignore
 Specifies files and directories to be ignored by Git, such as `node_modules` and `.env`.
 
-### package.json
 
+### package.json
 Defines the project dependencies and scripts.
+
+
+### package-lock.json
+Exact version locking of dependencies ensures consistent and reproducible builds.
+
+
+### README.md
+Serves as documentation for the project, including description, setup instructions, usage guidelines, API document, and other relevant details.
+
+
+### notes.md
+Serves as personal or team-specific document used primarily for jotting down informal notes, reminders, ideas, references, or any other information relevant to the project. 
+
 
 ## Links
 
