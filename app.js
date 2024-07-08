@@ -1,12 +1,12 @@
 // Dependencies
-const express = require("express")
-const cors = require("cors")
+const express = require("express");
+const cors = require("cors");
 
 // Configuration
 const app = express()
 
 //Middleware
-app.use(express.json()) 
+app.use(express.json()) // parse incoming middleware
 app.use(cors());
 
 //Controllers
@@ -15,13 +15,14 @@ app.use("/transactions", transactionsController) /
 
 
 //Root/Health Check Route
+//Home Page
 app.get("/", (request, response) => {
-    res.status(200).send("Welcome to FinTrack App") 
+    response.status(200).send("Welcome to FinTrack App!") 
 })
 
 // Error Message
 app.get("*", (request, response) => {
-    resonse.status(404).json({ error: "Sorry, looks like this page doesn't exist"});
+    response.status(404).json({ error: "Sorry, looks like this page doesn't exist"});
 });
 
 
@@ -60,5 +61,7 @@ app.get("/", (req, res) => {
 // Export App
 module.exports = app
 
+
+https://github.com/10-6-pursuit/unit-back-end-web-development/tree/main/express-rest-show-create
 
 */

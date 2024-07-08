@@ -168,3 +168,19 @@ bank-transaction-app-backend/
   
 - **Verification:** After running `npm run dev`, you should see a message indicating the server is listening on the specified port, confirming the setup is correct.
 
+# Things I need to keep in mind, especially in the context of a transaction app:
+
+### HTTP Status Codes
+
+```
+200 OK: Request succeeded; the server successfully returned the requested data.
+201 Created: Request succeeded; the server has successfully created a new resource as a result of the request (commonly used after a successful POST request).
+400 Bad Request: The server could not understand the request due to malformed syntax or other client-side errors.
+401 Unauthorized: The request requires user authentication. The user needs to provide valid credentials to access the resource.
+403 Forbidden: The server understood the request, but it refuses to authorize it. The user might not have the necessary permissions for the resource.
+404 Not Found: The server cannot find the requested resource. This is commonly used when a requested resource does not exist.
+405 Method Not Allowed: The method specified in the request (GET, POST, etc.) is not allowed for the resource identified by the request URI.
+500 Internal Server Error: A generic error message indicating that something unexpected went wrong on the server side. This is often used for unspecified server-side errors.
+503 Service Unavailable: The server is currently unable to handle the request due to temporary overloading or maintenance of the server.
+
+```
