@@ -17,7 +17,7 @@ app.use("/transactions", transactionsController) /
 //Root/Health Check Route
 //Home Page
 app.get("/", (request, response) => {
-    response.status(200).send("Welcome to FinTrack App!") 
+    response.status(200).send("Welcome to FinanceTrack App!") 
 })
 
 // Error Message
