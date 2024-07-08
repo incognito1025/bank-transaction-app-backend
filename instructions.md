@@ -1,271 +1,170 @@
-Setup Steps
+My Setup Steps for Backend app
+FYI for myself - must type `npm run dev` or `npx nodemon server.js` to run the server. nodemon will not install globally.
 
-//Use node server.js run to start the program
+### Project Structure and Setup Instructions
+Your setup steps for the backend app are quite comprehensive and cover all necessary aspects. However, there are a few minor adjustments and potential redundancies that could be addressed for clarity and efficiency:
 
-### Project Structure and Setup
+### Setup Steps
 
-```
-bank-transaction-app-backend/
-│
-├── data/
-│   └── transactions.json
-│
-├── src/
-│   ├── controllers/
-│   │   └── transactionController.js
-│   ├── helpers/
-│   │   └── fileHelper.js
-│  
-├── index.js
-├── .gitignore
-├── package.json
-└── README.md
+Here are your revised setup steps for the backend app, including the additions and adjustments you requested:
 
-```
+### Project Structure/Map
 
 ```
 bank-transaction-app-backend/
 │
 ├── data/                    // Directory containing data files
-│   └── transactions.json          // JSON file for storing transaction data
+│   └── transactions.json    // JSON file for storing transaction data
 │
-├── src/                     // Source code directory
-│   ├── controllers/         // Controllers directory
-│   │   └── transactionController.js  // Controller for handling transaction operations
-│   ├── helpers/             // Helpers directory
-│   │   └── fileHelper.js    // Helper functions for file operations
-│  
-├── index.js                 // Main entry point of the application
+├── controllers/             // Controllers directory
+│   └── transactionController.js  // Controller for handling transaction operations
+│
+├── models/                  // Models directory
+│   └── transaction.js       // Transaction model
+│
 ├── .gitignore               // Git ignore file to exclude certain files/directories
+├── .env                     // Environment variables file
+├── app.js                   // Main application setup file
+├── server.js                // Server entry point
 ├── package.json             // Node.js package configuration file
 └── README.md                // Readme file with project description and instructions
-
-
-
-
-
-
 ```
+
 ### Setup Steps
 
-1. **Project Initialization:**
-   - Initialize a Node.js project with `npm init -y`.
-   - Create necessary directories and files:
+1. **Project Initialization and Structure:**
+   - Initialize a Node.js project and create necessary directories and files:
 
-     ```
-     mkdir back-transaction-app-backend
-     cd back-transaction-app-backend
-     touch .gitignore app.js server.js README.md instructions.md
-     npm install nanoid@3
-     ```
-
-     ```sh
-     mkdir src
-     mkdir src/controllers
-     touch src/controllers/transactionController.js
-     mkdir src/helpers
-     touch src/helpers/fileHelper.js
-     touch app.jss
-
-     mkdir data
-     touch data/transactions.json
-    
-    npm install cors
-    npm install dotenv
-    npm install express
-
-    alternate: 
-    npm install cors dotenv express
-
+     ```bash
+     mkdir bank-transaction-app-backend
+     cd bank-transaction-app-backend
+     npm init -y
+     mkdir data controllers models
+     touch data/transactions.json controllers/transactionController.js models/transaction.js .gitignore app.js server.js .env README.md
      ```
 
-   - Setup `package.json` with appropriate scripts:
+2. **Install Dependencies:**
+   - Install required Node.js packages:
+
+     ```bash
+     npm install express cors dotenv nanoid
+     npm install --save-dev nodemon
+     ```
+
+3. **Configure `.env` file:**
+   - Set up environment variables like port number:
+
+     ```plaintext
+     PORT=5173
+     ```
+
+4. **Update `package.json` scripts:**
+   - Modify scripts for running the server. Note the instruction to use `npm run dev` or `npx nodemon server.js` to run the server:
+
      ```json
-     "scripts": {
-       "index": "node src/index.js index",
-       "create": "node src/index.js create",
-       "show": "node src/index.js show",
-       "update": "node src/index.js update",
-       "destroy": "node src/index.js destroy",
-       "vip": "node src/index.js vip"
+     {
+       "name": "bank-transaction-app-backend",
+       "version": "1.0.0",
+       "description": "Backend practice",
+       "main": "server.js",
+       "scripts": {
+         "test": "echo \"Error: no test specified\" && exit 1",
+         "start": "node server.js",
+         "dev": "nodemon server.js"
+       },
+       "keywords": [],
+       "author": "Niki K.",
+       "license": "ISC",
+       "dependencies": {
+         "cors": "^2.8.5",
+         "dotenv": "^16.4.5",
+         "express": "^4.19.2",
+         "nanoid": "^3.3.7"
+       },
+       "devDependencies": {
+         "nodemon": "^3.1.4"
+       }
      }
      ```
 
-    - Setup `.gitignore` with appropriate details:
-     ```
+5. **Setup `.gitignore` file:**
+   - Specify files and directories to be ignored by Git:
+
+     ```plaintext
      # Node.js dependencies
      /node_modules
      .DS_STORE
      
-     #Log files
+     # Log files
      npm-debug.log*
      yarn-debug.log*
      yarn-error.log*
      
      # Environment variables
      .env
-    
-    # Data files
-    /data/transactions.json
-
-     ```
-
-
-   - Setup `.env` file with appropriate details:
-     ```sh
-     npm install dotenv
-     touch .env
-
-     # Example .env file
-     # This is where you can put your environment variables
-     # e.g., DATABASE_URL, API_KEY, etc.
-     # For now, let's leave it empty
-     ```
-
-     ```
-
-   - Setup `server.js` `app.js` `package.json` file with basic healthcheck route and confirm installation of node and npm:
      
-    ```
-      node --version
-      npm --version
-
-    ```
-
-
-
-    - you should see the following:
-
-    ```
-
-        ➜  bank-transaction-app-backend git:(main) node --version
-        v20.10.0
-        ➜  bank-transaction-app-backend git:(main) ✗ npm --version
-        10.2.3
-        ➜  bank-transaction-app-backend git:(main) ✗ npm install
-
-        up to date, audited 69 packages in 1s
-
-        14 packages are looking for funding
-          run `npm fund` for details
-
-        found 0 vulnerabilities
-        ➜  bank-transaction-app-backend git:(main) ✗ node server.js
-        Listening on port undefined
-
-
-    ```
-
-
-
-
-     ```
-        //app.js
-
-        // Dependencies
-        const express = require("express")
-
-        // Configuration
-        const app = express()
-
-        // Root/Health Check Route
-        app.get("/", (req, res) => {
-            res.status(200).send("Welcome to My Bank Transaction App")
-        })
-
-        // Export App
-        module.exports = app      
-
-
-     ```
-        //server.js
-
-        @@ -0,0 +1,11 @@
-        // Dependencies
-        const app = require("./app")
-
-        // Configuration
-        require("dotenv").config()
-        const PORT = process.env.PORT
-
-        // Listen To Port
-        app.listen(PORT, () => {
-            console.log(`Listening on port ${PORT}`)
-        })
-
+     # Data files
+     /data/transactions.json
      ```
 
+6. **Create initial `transactions.json` file:**
+   - Initialize the JSON file for storing transaction data:
+
+     ```json
+     []
      ```
-      mkdir controllers
-      touch controllers/transactionsController.js
 
-      mkdir models
-      touch models/transaction.js
+7. **Create `app.js`:**
+   - Set up the main application file to configure Express:
 
+     ```javascript
+     require('dotenv').config();
+     const express = require("express");
+     const app = express();
      
+     app.use(express.json());
+     
+     const transactionsController = require("./controllers/transactionController");
+     app.use("/transactions", transactionsController);
+     
+     app.get("/", (req, res) => {
+         res.status(200).send("Welcome to My Bank Transaction App");
+     });
+     
+     module.exports = app;
      ```
-    - you should see the following for models/transaction.js:
-    module.exports = [
-    {
 
-    }
-]
+8. **Create `server.js`:**
+   - Implement the server entry point to start the Express app:
 
-    ```
+     ```javascript
+     const app = require("./app");
+     require("dotenv").config();
+     const PORT = process.env.PORT || 3000; // Default to port 3000 if PORT is not specified
+     
+     app.listen(PORT, () => {
+         console.log(`Listening on port ${PORT}`);
+     });
+     ```
 
-    
+9. **Create `controllers/transactionController.js`:**
+   - Define the controller for handling transaction operations:
 
+     ```javascript
+     const express = require("express");
+     const transactionsRouter = express.Router();
+     const transactionArray = require("../models/transaction");
+     
+     transactionsRouter.get("/", (req, res) => {
+         res.status(200).send(transactionArray);
+     });
+     
+     module.exports = transactionsRouter;
+     ```
 
+### Notes
 
-
-
-
-2. **File Contents and Directories/Dependencies:**
-
-   - **app.js:** Main entry point handling CLI commands.
-   - **helpers.js:** Utility functions for reading and writing JSON files.
-   - **transactionController.js:** Functions for CRUD operations for transactions
-   - **transactions.json:** Stores the transaction list. empty array []
-   - **.gitignore:** Specifies files and directories to be ignored by Git.
-   - **package.json:** Manages project dependencies and scripts.
-   **README.md:** Describes the project and provides instructions.
-
-
-3. add controller to app.js
-
-```
-// Configuration
-const app = express()
-
-// Controllers
-const transactionsController = require("./controllers/transactionsController")
-
-app.use("/transactions", transactionsController)
-
-// Root/Health Check Route
-app.get("/", (req, res) => {
-    res.status(200).send("Welcome to My Bank Transaction App")
-
-```
-
-4. update transactionsController.js
-
-```
-
-// Dependencies
-const express = require("express")
-
-const transactionsRouter = express.Router()
-
-const transactionArray = require("../models/transaction")
-
-// Index Route
-transactionsRouter.get("/", (req, res) => {
-    res.status(200).send(transactionArray)
-})
-
-// Export
-module.exports = transactionsRouter;
-
-```
+- **Running the Server:** Remember to use `npm run dev` or `npx nodemon server.js` to start the server, as indicated in setup steps.
+  
+- **Verification:** After running `npm run dev`, you should see a message indicating the server is listening on the specified port, confirming the setup is correct.
 

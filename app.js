@@ -1,6 +1,41 @@
-//app.js
 // Dependencies
 const express = require("express")
+const cors = require("cors")
+
+// Configuration
+const app = express()
+
+//Middleware
+app.use(express.json()) 
+app.use(cors());
+
+//Controllers
+const transactionsController = require("./controllers/transactionsController")
+app.use("/transactions", transactionsController) /
+
+
+//Root/Health Check Route
+app.get("/", (request, response) => {
+    res.status(200).send("Welcome to FinTrack App") 
+})
+
+// Error Message
+app.get("*", (request, response) => {
+    resonse.status(404).json({ error: "Sorry, looks like this page doesn't exist"});
+});
+
+
+// Export App
+module.exports = app
+
+
+/*
+//
+require('dotenv').config();
+
+// Dependencies
+const express = require("express")
+const cors = require("cors")
 
 // Configuration
 const app = express()
@@ -8,11 +43,14 @@ const app = express()
 //Middleware - functions that have access to the request object (req), the response object(res) and middleware functions in request-response cycle
 app.use(express.json()) //method to mount middleware functions at a specific path. if no path, then the middleware is mounted to the root path (executed for every incoming request)
 //express.json parses incoming requests and handles JSON data
+app.use(cors());
 
 //Controllers
 const transactionsController = require("./controllers/transactionsController")
 
 app.use("/transactions", transactionsController) //app.use("/transactions", transactionsController) - this will set up a middleware to handle routes under the /`transactions` path. transactionsController is passed as a middleware function to handle requests that start with `/transactions`. This controller will help define routes and respective logic for CRUD operations (Create, Read, Update, Delete) on transactions.
+
+//
 
 // Root/Health Check Route
 app.get("/", (req, res) => {
@@ -21,3 +59,6 @@ app.get("/", (req, res) => {
 
 // Export App
 module.exports = app
+
+
+*/
