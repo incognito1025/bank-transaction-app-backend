@@ -9,8 +9,10 @@ const path = require("path");
 // Index Route: Retrieve a list of all transactions
 // Postman Test GET: http://localhost:8888/transactions
 transactionsRouter.get("/", (request, response) => {
-    try {
+    try { 
         response.status(200).send(transactionArr);
+    
+    // Error handling try/catch block
     } catch (error) {
         response.status(404).json({ error: "Something isn't working correctly!" });
     }
@@ -22,6 +24,7 @@ transactionsRouter.get("/:id", (request, response) => {
     const { id } = request.params;
     const transaction = transactionArr.find(transaction => transaction.id === id);
 
+    // Error handling if/else block
     if (transaction) {
         response.status(200).send(transaction);
     } else {
@@ -38,6 +41,8 @@ transactionsRouter.post("/", (request, response) => {
     // Save the updated transactionArr array to a JSON file
     const filePath = path.join(__dirname, "../models/transaction.json");
     fs.writeFile(filePath, JSON.stringify(transactionArr), (error) => {
+
+      // Error handling if/else block
         if (error) {
             console.error(error);
             response.status(500).send("Failed to save transaction!");
@@ -47,6 +52,77 @@ transactionsRouter.post("/", (request, response) => {
     });
 });
 
+//Update Route: Update a single transaction
+//Postman Test POST: http://localhost:8888/transactions/:id  Headers: content-type application/json, then add object data in Body
+
+transactionsRouter.put("/:id", (request, response) => {  //Route definition at endpoint `/:id`, which is a placeholder for the unique identifier
+  const { id } = request.params; //request parameters. Extracts `id` parameter from requests' URL parameters. represents unique identifier for the transaction to be updated
+  const updateTransIndex = transactionArr.findIndex((transaction) => transaction.id === id); //searches through transactionArr array to find the index of the transadction object that matches id. findIndex method iterates over each transaction in the array and returns the index of the first transaction that satisfies the provided condition that transaction id is strictly equal to id (includes letters and numbers)
+  transactionArr[updateTransIndex] = request.body; // transactionArr[updateTransIndex] is javascript code to access an element in array at a specific index like `array[5]`. once updateTransIndex is found, the code updates the transaction object at the index of transactionArr with the data from request.body. saction object at that index in transactionArr with the data from request.body. This assumes that request.body contains the updated fields of the transaction.
+
+  if (updateTransIndex !== -1){
+    transactionArr[updateTransIndex] = { id, ...request.body };
+
+    //Save the updated transactionArr array to a JSON file
+    const filePath = path.join(__dirname, "../models/transaction.json");
+    fs.writeFile(filePath, JSON.stringify(transactionArr), (error) => {
+
+      // Error handling if/else block
+      if (error) {
+        console.error(error);
+        response.status(500).send("Failed to save transaction!");
+      } else {
+        response.status(200).json(transactionArr[updateTransIndex]); //the server responds with a status code of 200 (indicating success) and sends the updated transaction object (transactionArr[updateTransIndex]) as JSON in the response body.
+      }
+    });
+  } else {
+    response.status(404).json({error: `Transaction id ${id} not found.`});
+  }
+   
+});
+
+
+
+
+
+/*
+// DELETE
+colors.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  const deletedColorIndex = colorsArray.findIndex((color) => color.id === Number(id));
+  const deletedColor = colorsArray.splice(deletedColorIndex, 1);
+  res.status(200).json(deletedColor[0]);
+});
+
+//Error handling with delete:
+// DELETE
+colors.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  const deletedColorIndex = colorsArray.findIndex((color) => color.id === Number(id));
+  if (deletedColorIndex) {
+    const deletedColor = colorsArray.splice(deletedColorIndex, 1);
+    res.status(200).json(deletedColor[0]);
+  } else {
+    res.status(404).json({ error: "Not Found" });
+  }
+});
+
+///You can instead, choose to redirect after successful delete:
+// DELETE
+colors.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  const deletedColorIndex = colorsArray.findIndex((color) => color.id === Number(id));
+  if (deletedColorIndex) {
+    const deletedColor = colorsArray.splice(deletedColorIndex, 1);
+    res.redirect("/colors");
+  } else {
+    res.status(404).json({ error: "Not Found" });
+  }
+});
+
+*/
+
+
 module.exports = transactionsRouter;
 
 
@@ -54,6 +130,27 @@ module.exports = transactionsRouter;
 /*
 
 Notes and additional explanations for my own reference:
+
+```
+Things I need to address for a real-world application when testing `Create Route`:
+
+
+Assessment of current code: Yes, if there were a million transactions in the array, the newly created transaction would still appear at the end of the array. However, handling such a large number of transactions in a JSON file can lead to performance issues and potential data integrity problems.
+
+My response: "That sounds awful from the client side of things. Normally if I enter a transaction, I usually get a verification that that newly created transaction was successfully entered into the bank system.  If I asked for a copy of my bank transaction statement, the newly created transaction will be the first to appear.  And even if I had a million transaction, the system will only provide a limited number of transaction history to confirm that the new transaction is present. Only when I ask for a full transaction history, will the system provide the entire list, with the newly created on on top of the transaction history. That's what a real banking app would do.""
+
+My solution if I time:
+for a real-world application, handling a large number of transactions in a more efficient and user-friendly way is crucial.
+Steps to Improve Your System
+Database Integration: Instead of using a JSON file to store transactions, use a database (e.g., MongoDB, PostgreSQL, MySQL). Databases are designed to handle large amounts of data efficiently and provide mechanisms for data integrity and concurrent access.
+
+Pagination: Implement pagination for retrieving transactions. This allows you to return a limited number of transactions per request, improving performance and user experience. For example, you can return the 10 most recent transactions first.
+
+Sorting: Ensure that transactions are sorted by date (newest first) when retrieved. This way, the most recent transactions appear at the top.
+
+Efficient Writing: Instead of rewriting the entire file or data set, insert the new transaction directly into the database.
+
+```
 
 // Index Route: Retrieve a list of all transactions. If successful, data retrieved. If unsuccessful, error message displayed
 transactionsRouter.get("/", (request, response) => {
@@ -537,5 +634,15 @@ You can then use a router for a particular root URL in this way separating your 
 
 // only requests to /calendar/* will be sent to our "router"
 app.use('/calendar', router)
+
+
+//update
+transactionsRouter.put("/:id", (request, response) => {  //Route definition at endpoint `/:id`, which is a placeholder for the unique identifier
+  const { id } = request.params; //request parameters. Extracts `id` parameter from requests' URL parameters. represents unique identifier for the transaction to be updated
+  const updateTransIndex = transactionArr.findIndex((transaction) => transaction.id === id); //searches through transactionArr array to find the index of the transadction object that matches id. findIndex method iterates over each transaction in the array and returns the index of the first transaction that satisfies the provided condition that transaction id is strictly equal to id (includes letters and numbers)
+  transactionArr[updateTransIndex] = request.body; // transactionArr[updateTransIndex] is javascript code to access an element in array at a specific index like `array[5]`. once updateTransIndex is found, the code updates the transaction object at the index of transactionArr with the data from request.body. saction object at that index in transactionArr with the data from request.body. This assumes that request.body contains the updated fields of the transaction.
+
+  response.status(200).json(transactionArr[updateTransIndex]); //the server responds with a status code of 200 (indicating success) and sends the updated transaction object (transactionArr[updateTransIndex]) as JSON in the response body.
+});
 
 */

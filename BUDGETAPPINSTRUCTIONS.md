@@ -30,10 +30,10 @@ To complete the back-end application, you will need to build a RESTful server th
      - `date`- string - the date should be a simple string. As a bonus activity, use the date object and date input field and format it to be human-readable
      - `from` - string - who this transaction was with (ie. employer, bank, pet store, grocery store, etc)
      - `category` - string - what category does this fall into (income, savings, pets, food, etc)
-1. A route exists to create new transactions.
-1. A route exists to read all transactions.
-1. A route exists to read a single transaction.
-1. A route exists to update a single transaction.
+1. XA route exists to create new transactions.
+1. XA route exists to read all transactions.
+1. XA route exists to read a single transaction.
+1. XA route exists to update a single transaction.
 1. A route exists to delete a single transaction.
 1. An appropriate "Not Found" response is given when a route is requested that does not match the created routes.
 1. Each Route has appropriate error handling using `if/else` or `try/catch` blocks.
