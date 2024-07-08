@@ -32,7 +32,7 @@ transactionsRouter.get("/:id", (request, response) => {
     }
 });
 
-// Create Route: Create one new transaction
+// Create Route: Create single new transaction
 // Postman Test POST: http://localhost:8888/transactions  Headers: content-type application/json, then add object data in Body
 transactionsRouter.post("/", (request, response) => {
     const singleTrans = { id: nanoid(), ...request.body };
@@ -53,7 +53,7 @@ transactionsRouter.post("/", (request, response) => {
 });
 
 //Update Route: Update a single transaction
-//Postman Test POST: http://localhost:8888/transactions/:id  Headers: content-type application/json, then add object data in Body
+//Postman Test PUT: http://localhost:8888/transactions/:id  Headers: content-type application/json, then add object data in Body
 
 transactionsRouter.put("/:id", (request, response) => {  //Route definition at endpoint `/:id`, which is a placeholder for the unique identifier
   const { id } = request.params; //request parameters. Extracts `id` parameter from requests' URL parameters. represents unique identifier for the transaction to be updated
@@ -82,7 +82,31 @@ transactionsRouter.put("/:id", (request, response) => {  //Route definition at e
 });
 
 
+//Delete Route: Delete a single transaction
+//Postman Test DELETE: http://localhost:8888/transactions/:id  Headers: content-type application/json, then add object data in Body
+transactionsRouter.delete("/:id", (request, response) => {
+  const { id } = request.params;
+  const deletedTransIndex = transactionArr.findIndex((transaction) => transaction.id === id);
+  
+  if (deletedTransIndex !== -1) { // To ensure that transaction was found and deleted.
+    const deletedTrans = transactionArr.splice(deletedTransIndex, 1)[0]; //splice returns an array. I need the first item.
 
+  //Save the updated transactionArr Array to a JSON file
+  const filePath = path.join(__dirname, "../models/transaction.json");
+  fs.writeFile(filePath, JSON.stringify(transactionArr), (error) => {
+
+  // Error handling if/else block
+  if (error) {
+      console.error(error);
+      response.status(500).send("Failed to update transaction history!");
+  } else {
+    response.status(200).json(deletedTrans);
+  }
+  });
+} else {
+  response.status(404).json({ error: `Transaction id ${id} not found` });
+} 
+});
 
 
 /*
